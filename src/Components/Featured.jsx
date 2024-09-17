@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Typography, Stack } from "@mui/material";
+import { blogStore } from "../Store/blogStore";
 
 function Featured() {
+  const { blogPost, fetchBlogPosts } = blogStore();
+
+  useEffect(() => {
+    fetchBlogPosts(); // Fetch blog posts when component loads
+  }, [fetchBlogPosts]);
   return (
     <Stack
       sx={{
