@@ -7,7 +7,10 @@ export const blogStore = create((set) => ({
   fetchBlogPosts: async () => {
     try {
       const query = `*[_type == "post"] | order(_createdAt asc) [0...5]{
-        title, description, slug, mainImage{asset->{_id, url}, alt}, body
+        title, description,  author ->{
+        name,
+        nickname
+      }, slug, mainImage{asset->{_id, url}, alt}, body
       }`;
 
       const response = await sanityClient.fetch(query);

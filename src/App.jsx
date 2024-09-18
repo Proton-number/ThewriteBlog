@@ -5,6 +5,7 @@ import Hero from "./Components/Hero";
 import { createTheme, ThemeProvider } from "@mui/material";
 import Featured from "./Components/Featured";
 import Overview from "./Components/Overview";
+import Footer from "./Components/Footer";
 
 function App() {
   const theme = createTheme({
@@ -19,6 +20,7 @@ function App() {
         <Hero />
         <Overview />
         <Featured />
+        <Footer />
       </ThemeProvider>
     </>
   );
