@@ -5,11 +5,11 @@ import Grid from "@mui/material/Grid2";
 import { motion } from "framer-motion";
 
 function Featured() {
-  const { blogPost, fetchBlogPosts } = blogStore();
+  const { blogPost, fetchFeaturedBlogPosts } = blogStore();
 
   useEffect(() => {
-    fetchBlogPosts(); // Fetch blog posts when component loads
-  }, [fetchBlogPosts]);
+    fetchFeaturedBlogPosts(); // Fetch blog posts when component loads
+  }, [fetchFeaturedBlogPosts]);
 
   return (
     <Stack
@@ -28,12 +28,16 @@ function Featured() {
       }}
       viewport={{ once: false, amount: 0.22 }}
       sx={{
-        height: "100vh",
         padding: "30px",
       }}
     >
       <Typography variant="h2">Featured</Typography>
-      <Grid spacing={8} sx={{ padding: "20px" }} container>
+      <Grid
+        spacing={8}
+        sx={{ padding: "20px" }}
+        justifyContent="center"
+        container
+      >
         {blogPost &&
           blogPost.map((post, index) => (
             <Grid xs={12} sm={6} md={4} lg={2.4} item key={index}>
@@ -44,16 +48,16 @@ function Featured() {
                     overflow: "hidden",
                     width: {
                       sm: "280px",
-                      lg: "400px",
+                      lg: "300px",
                     },
                     height: {
                       sm: "280px",
-                      lg: "400px",
+                      lg: "300px",
                     },
                     cursor: "pointer",
                   }}
                 >
-                  {post.mainImage && (
+                  {post?.mainImage && (
                     <Box
                       component={motion.img}
                       transition={{ duration: 0.3 }}
@@ -63,18 +67,18 @@ function Featured() {
                         height: "100%",
                         objectFit: "cover",
                       }}
-                      src={post.mainImage.asset.url}
-                      alt={post.mainImage.alt}
+                      src={post?.mainImage?.asset?.url}
+                      alt={post?.mainImage?.alt}
                     />
                   )}
                 </Box>
                 <Stack>
-                  <Typography variant="h6">{post.title}</Typography>
+                  <Typography variant="h6">{post?.title}</Typography>
                   <Typography variant="subtitle2">
-                    {post.description}
+                    {post?.description}
                   </Typography>
                   <Typography variant="subtitle2">
-                    {post.author.name}
+                    {post?.author?.name}
                   </Typography>
                 </Stack>
               </Stack>

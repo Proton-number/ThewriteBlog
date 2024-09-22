@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Nav from "./Components/Nav";
 import MobileNav from "./Components/MobileNav";
 import Footer from "./Components/Footer";
+import SingleBlog from "./Pages/SingleBlog";
 
 // Lazy loaded components
 const Home = lazy(() => import("./Pages/Home"));
@@ -29,6 +30,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/Blogs" element={<Blogs />} />
             <Route path="/Login" element={<Login />} />
+            <Route path="/singleBlog/:slug" element={<SingleBlog />} />
           </Routes>
 
           <Footer />
