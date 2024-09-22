@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+     "cy:open": "cypress open",
+       "test": "cypress run"
   },
   "dependencies": {
     "@emotion/react": "^11.13.3",
@@ -17,6 +19,7 @@
     "@sanity/block-content-to-react": "^3.0.0",
     "@sanity/client": "^6.21.3",
     "@sanity/image-url": "^1.0.2",
+    "cypress": "^13.14.2",
     "firebase": "^10.13.1",
     "framer-motion": "^11.5.4",
     "ldrs": "^1.0.2",
@@ -36,5 +39,17 @@
     "eslint-plugin-react-refresh": "^0.4.9",
     "globals": "^15.9.0",
     "vite": "^5.4.1"
+  },
+ "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

@@ -14,7 +14,7 @@ function Hero() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImage((prevImage) => (prevImage + 1) % images.length);
-    }, 2000);
+    }, 3000);
 
     return () => clearInterval(interval); // Cleanup on unmount
   }, [images.length]);
@@ -39,7 +39,7 @@ function Hero() {
       >
         <Typography
           variant="h1"
-          sx={{ fontSize: { xs: "52px", sm: "80px", lg: "120px" } }}
+          sx={{ fontSize: { xs: "45px", sm: "80px", lg: "120px" } }}
         >
           TheWriteBlog
         </Typography>

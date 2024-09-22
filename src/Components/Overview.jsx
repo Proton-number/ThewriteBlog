@@ -33,9 +33,9 @@ function Overview() {
   return (
     <Stack
       sx={{
-        backgroundColor: "black",
-        color: "#f2ecff",
         padding: "30px",
+        backgroundColor: "#f2ecff",
+        color: "black",
       }}
     >
       <Typography variant="h2">Overview</Typography>
