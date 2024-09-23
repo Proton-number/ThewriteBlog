@@ -15,13 +15,23 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { loginStore } from "../Store/loginStore";
+import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
+  const navigate = useNavigate();
   const {
     loginShowPassword,
     setLoginShowPassword,
-    signinShowPassword,
-    setSigninShowPassword,
+    haveAccount,
+    setHaveAccount,
+    signInWithGoogle,
+    signUpWithEmailAndPassword,
+    logInWithEmailAndPassword,
+    email,
+    password,
+    setEmail,
+    setPassword,
+    error,
   } = loginStore();
   return (
     <Box
@@ -34,9 +44,21 @@ function Login() {
         color: "black",
       }}
     >
-      <Paper elevation={6} sx={{ padding: { xs: "24px", sm: "30px", lg: "60px" } }}>
+      <Paper
+        elevation={6}
+        sx={{
+          padding: { xs: "24px", sm: "30px", lg: "60px" },
+          textAlign: "center",
+          borderRadius: "20px",
+        }}
+      >
         <Stack spacing={3}>
-          <Typography>Login</Typography>
+          {haveAccount ? (
+            <Typography>Login</Typography>
+          ) : (
+            <Typography>SignUp</Typography>
+          )}
+
           <TextField
             InputProps={{
               endAdornment: (
@@ -52,6 +74,8 @@ function Login() {
             }}
             label={"Email..."}
             type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <TextField
             InputProps={{
@@ -84,11 +108,48 @@ function Login() {
             }}
             label={"Password..."}
             type={loginShowPassword ? "password" : "text"}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
-          <Typography>Forgot Password?</Typography>
-          <Button variant="contained" sx={{ textTransform: "none" }}>
-            Login
-          </Button>
+          {haveAccount && (
+            <Link
+              to="/ForgotPassword"
+              style={{ color: "inherit", textDecoration: "none" }}
+            >
+              <Typography
+                variant="subtitle2"
+                sx={{
+                  cursor: "pointer",
+                  opacity: "80%",
+                  "&:hover": { textDecoration: "underline" },
+                }}
+              >
+                Forgot Password?
+              </Typography>
+            </Link>
+          )}
+
+          {haveAccount ? (
+            <Button
+              onClick={() => {
+                logInWithEmailAndPassword(email, password, navigate);
+              }}
+              variant="contained"
+              sx={{ textTransform: "none" }}
+            >
+              Login
+            </Button>
+          ) : (
+            <Button
+              onClick={() => {
+                signUpWithEmailAndPassword(email, password, navigate);
+              }}
+              variant="contained"
+              sx={{ textTransform: "none" }}
+            >
+              SignIn
+            </Button>
+          )}
 
           <Stack
             spacing={2}
@@ -104,6 +165,7 @@ function Login() {
             <Divider sx={{ width: "40%" }} />
           </Stack>
           <Stack
+            onClick={() => signInWithGoogle(navigate)}
             direction="row"
             sx={{
               justifyContent: "center",
@@ -118,11 +180,35 @@ function Login() {
               alt="google-logo"
               sx={{ width: "25px" }}
             />
-            <Typography> Sign Up with Google</Typography>
+            <Typography> Sign In with Google</Typography>
           </Stack>
-          <Typography>
-            Don't have an account? <span>Sign up here</span>
-          </Typography>
+
+          {haveAccount ? (
+            <Typography>
+              Don't have an account?{" "}
+              <span
+                onClick={() => {
+                  setHaveAccount(false);
+                }}
+                style={{ color: "grey", cursor: "pointer" }}
+              >
+                Sign up here
+              </span>{" "}
+            </Typography>
+          ) : (
+            <Typography>
+              {" "}
+              Have an account?{" "}
+              <span
+                onClick={() => {
+                  setHaveAccount(true);
+                }}
+                style={{ color: "grey", cursor: "pointer" }}
+              >
+                Log in here
+              </span>{" "}
+            </Typography>
+          )}
         </Stack>
       </Paper>
     </Box>

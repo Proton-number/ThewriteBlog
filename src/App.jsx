@@ -6,6 +6,7 @@ import Nav from "./Components/Nav";
 import MobileNav from "./Components/MobileNav";
 import Footer from "./Components/Footer";
 import SingleBlog from "./Pages/SingleBlog";
+import ForgotPassword from "./Pages/ForgotPassword";
 
 // Lazy loaded components
 const Home = lazy(() => import("./Pages/Home"));
@@ -31,6 +32,7 @@ function App() {
             <Route path="/Blogs" element={<Blogs />} />
             <Route path="/Login" element={<Login />} />
             <Route path="/singleBlog/:slug" element={<SingleBlog />} />
+            <Route path="/ForgotPassword" element={<ForgotPassword />} />
           </Routes>
 
           <Footer />
