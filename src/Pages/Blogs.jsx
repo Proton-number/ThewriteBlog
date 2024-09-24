@@ -31,7 +31,6 @@ function Blogs() {
           {blogPost &&
             blogPost.map((post, index) => (
               <Grid
-                item
                 key={index}
                 sx={{
                   // Center the first row, left align others

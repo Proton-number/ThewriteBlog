@@ -26,6 +26,7 @@ export const loginStore = create((set) => ({
   password: "",
   setPassword: (password) => set({ password }),
   resetEmail: "",
+  setResetEmail: (resetEmail) => set({ resetEmail }),
 
   //Google Sign-In
   signInWithGoogle: async (navigate) => {
@@ -49,7 +50,7 @@ export const loginStore = create((set) => ({
         email,
         password
       );
-      set({ user: result.user });
+      set({ user: result.user, email: "", password: "" });
       console.log("Google user data:", result.user);
       navigate("/");
     } catch (error) {
@@ -63,8 +64,30 @@ export const loginStore = create((set) => ({
     set({ error: null });
     try {
       const result = await signInWithEmailAndPassword(auth, email, password);
-      set({ user: result.user });
+      set({ user: result.user, email: "", password: "" });
       navigate("/");
+    } catch (error) {
+      console.error("Error signing in:", error.response?.data || error.message);
+      set({ error: error.message });
+    }
+  },
+
+  alert: false,
+  sending: false,
+
+  //reset password
+  resetHandler: async (navigate) => {
+    set({ error: null });
+    try {
+      await sendPasswordResetEmail(auth, resetEmail);
+      set({ resetEmail: "", alert: true, sending: true });
+      // Navigate after a delay (e.g., 2 seconds)
+      const timeoutId = setTimeout(() => {
+        navigate("/");
+      }, 2000);
+
+      // Optionally clear the timeout in case the component unmounts or needs canceling
+      return () => clearTimeout(timeoutId);
     } catch (error) {
       console.error("Error signing in:", error.response?.data || error.message);
       set({ error: error.message });

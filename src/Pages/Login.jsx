@@ -137,7 +137,7 @@ function Login() {
               variant="contained"
               sx={{ textTransform: "none" }}
             >
-              Login
+              Log In
             </Button>
           ) : (
             <Button
@@ -147,7 +147,7 @@ function Login() {
               variant="contained"
               sx={{ textTransform: "none" }}
             >
-              SignIn
+              Sign Up
             </Button>
           )}
 

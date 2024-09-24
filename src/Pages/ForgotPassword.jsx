@@ -8,12 +8,18 @@ import {
   Button,
   Alert,
 } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { loginStore } from "../Store/loginStore";
+import { useNavigate } from "react-router-dom";
 
 function ForgotPassword() {
+  const { alert, sending, resetEmail, setResetEmail, resetHandler, error } =
+    loginStore();
+  const navigate = useNavigate();
   return (
-    <Box
+    <Stack
+      spacing={3}
       sx={{
         height: "100vh",
         display: "flex",
@@ -23,6 +29,38 @@ function ForgotPassword() {
         color: "black",
       }}
     >
+      <AnimatePresence>
+        {alert && (
+          <Box
+            component={motion.div}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+            exit={{ opacity: 0, y: -20 }}
+          >
+            <Alert variant="filled" severity="success">
+              Check your Email for a reset link
+            </Alert>
+          </Box>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {error && !alert && (
+          <Box
+            component={motion.div}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 1 }}
+            exit={{ opacity: 0, y: -20 }}
+          >
+            <Alert variant="filled" severity="error">
+              {error}
+            </Alert>
+          </Box>
+        )}
+      </AnimatePresence>
+
       <Paper
         elevation={4}
         sx={{
@@ -31,12 +69,25 @@ function ForgotPassword() {
         }}
       >
         <Stack spacing={3}>
-          <Typography>Forgot Password?</Typography>
-          <TextField label={"Email..."} type="email" />
-          <LoadingButton variant="contained">Reset</LoadingButton>
+          <Typography>Reset your Password</Typography>
+          <TextField
+            value={resetEmail}
+            onChange={(e) => setResetEmail(e.target.value)}
+            label={"Email..."}
+            type="email"
+          />
+          <LoadingButton
+            loading={sending}
+            variant="contained"
+            onClick={() => {
+              resetHandler(navigate);
+            }}
+          >
+            Reset
+          </LoadingButton>
         </Stack>
       </Paper>
-    </Box>
+    </Stack>
   );
 }
 

@@ -40,7 +40,7 @@ function Featured() {
       >
         {blogPost &&
           blogPost.map((post, index) => (
-            <Grid xs={12} sm={6} md={4} lg={2.4} item key={index}>
+            <Grid xs={12} sm={6} md={4} lg={2.4}  key={index}>
               <Stack spacing={2}>
                 <Box
                   component={motion.div}
