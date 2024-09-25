@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import { AppBar, Toolbar, Typography, Button, Stack } from "@mui/material";
 import { motion, useAnimation } from "framer-motion";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { colorStore } from "../Store/colorStore";
+import { loginStore } from "../Store/loginStore";
 
 function Nav() {
   const {
@@ -13,8 +14,10 @@ function Nav() {
     color,
     setColor,
   } = colorStore();
+  const { user, logOut } = loginStore();
 
   const location = useLocation();
+  const navigate = useNavigate();
   // Controls for the animation
   const controls = useAnimation();
 
@@ -110,7 +113,23 @@ function Nav() {
               </Typography>
             </Link>
 
-            <Link to="/Login">
+            {!user && (
+              <Link to="/Login">
+                <Button
+                  variant="contained"
+                  sx={{
+                    color: "black",
+                    backgroundColor: "white",
+                    textTransform: "none",
+                    height: "42px",
+                    width: "124px",
+                  }}
+                >
+                  Sign In
+                </Button>
+              </Link>
+            )}
+            {user && (
               <Button
                 variant="contained"
                 sx={{
@@ -120,10 +139,11 @@ function Nav() {
                   height: "42px",
                   width: "124px",
                 }}
+                onClick={() => logOut(navigate)}
               >
-                Sign In
+                Log Out
               </Button>
-            </Link>
+            )}
           </Stack>
         </Toolbar>
       </AppBar>

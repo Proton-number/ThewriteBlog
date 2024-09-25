@@ -6,6 +6,7 @@ import {
 } from "firebase/auth";
 import { signInWithPopup } from "firebase/auth";
 import { sendPasswordResetEmail } from "firebase/auth";
+import { signOut } from "firebase/auth";
 
 export const loginStore = create((set) => ({
   loginShowPassword: true,
@@ -25,8 +26,6 @@ export const loginStore = create((set) => ({
   setEmail: (email) => set({ email }),
   password: "",
   setPassword: (password) => set({ password }),
-  resetEmail: "",
-  setResetEmail: (resetEmail) => set({ resetEmail }),
 
   //Google Sign-In
   signInWithGoogle: async (navigate) => {
@@ -75,22 +74,39 @@ export const loginStore = create((set) => ({
   alert: false,
   sending: false,
 
+  resetEmail: "",
+  setResetEmail: (resetEmail) => set({ resetEmail }),
   //reset password
-  resetHandler: async (navigate) => {
-    set({ error: null });
+  resetHandler: async (resetEmail, navigate) => {
+    set({ error: null, sending: true });
+
     try {
-      await sendPasswordResetEmail(auth, resetEmail);
-      set({ resetEmail: "", alert: true, sending: true });
+      await sendPasswordResetEmail(auth, resetEmail); // Use resetEmail from the state
+      set({ resetEmail: "", alert: true });
+
       // Navigate after a delay (e.g., 2 seconds)
       const timeoutId = setTimeout(() => {
         navigate("/");
+        set({ sending: false, alert: false });
       }, 2000);
 
       // Optionally clear the timeout in case the component unmounts or needs canceling
       return () => clearTimeout(timeoutId);
     } catch (error) {
-      console.error("Error signing in:", error.response?.data || error.message);
+      console.error(
+        "Error resetting password:",
+        error.response?.data || error.message
+      );
       set({ error: error.message });
+    }
+  },
+  logOut: async (navigate) => {
+    try {
+      await signOut(auth); // Sign out the user from Firebase
+      set({ user: null });
+      navigate("/Login");
+    } catch (error) {
+      console.error("Error logging out:", error.message);
     }
   },
 }));

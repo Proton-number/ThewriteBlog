@@ -80,7 +80,7 @@ function ForgotPassword() {
             loading={sending}
             variant="contained"
             onClick={() => {
-              resetHandler(navigate);
+              resetHandler(resetEmail, navigate);
             }}
           >
             Reset
