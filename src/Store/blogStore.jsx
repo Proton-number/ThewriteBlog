@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import sanityClient from "../client";
-
-import { Box, Typography, Stack } from "@mui/material";
+import imageUrlBuilder from "@sanity/image-url";
 
 export const blogStore = create((set) => ({
   blogPost: null,
@@ -52,7 +51,6 @@ export const blogStore = create((set) => ({
 
   //logic for single blogs
   singlePost: null,
-  setSinglePost: (singlePost) => set({ singlePost }),
   fetchSingleBlog: async (slug) => {
     try {
       const query = `*[slug.current == "${slug}"]{
@@ -62,7 +60,8 @@ export const blogStore = create((set) => ({
             author ->{
                 name,
                 _id,
-                nickname
+                nickname,
+                slug,
               },
             mainImage{
                 asset -> {
@@ -72,12 +71,12 @@ export const blogStore = create((set) => ({
             },
             body,
             "name": author-> name,
-            "authorImage": author-> image
+            "authorImage": author-> image,
+              publishedAt,
         }`;
       const data = await sanityClient.fetch(query, { slug });
 
-      setTimeout(() => set({ singlePost: data[0] }), 1000);
-
+      set({ singlePost: data[0] });
       if (data[0]?.title) {
         document.title = data[0].title;
       }
@@ -86,38 +85,22 @@ export const blogStore = create((set) => ({
     }
   },
 
-  // STYLING THE CONTENT IN BLOCK CONTENT
-  customSerializers: () => ({
-    types: {
-      image: ({ node }) => {
-        const imageUrl = builder.image(node.asset).width(400).url(); // Adjust width as needed
-        return (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <Box
-              component="img"
-              src={imageUrl}
-              alt={node.alt}
-              sx={{
-                width: { xs: "320px", sm: "450px", lg: "900px" },
-                height: "auto",
-              }}
-            />
-          </Box>
-        );
-      },
-      block: ({ children }) => (
-        <Typography
-          variant="h2" // You can adjust the variant based on your design
-          sx={{ textAlign: "justify", margin: "10px 0", color: "pink" }} // Add the style to justify the text
-        >
-          {children}
-        </Typography>
-      ),
-    },
-  }),
+  // for author
+  author: null,
+  fetchAuthor: async (authorId) => {
+    try {
+      const query = `*[_type == "author"  && _id == "${authorId}"]{
+      name,
+      nickname,
+      bio,
+      "authorImage": image.asset->url
+    }`;
+
+      const data = await sanityClient.fetch(query);
+
+      set({ author: data[0] });
+    } catch (error) {
+      console.error("Error fetching author data:", error);
+    }
+  },
 }));

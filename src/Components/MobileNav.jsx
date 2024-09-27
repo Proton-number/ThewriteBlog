@@ -7,15 +7,18 @@ import {
   Drawer,
   Stack,
   AppBar,
+  Button,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
-import { colorStore } from "../Store/colorStore";
 import { motion, useAnimation } from "framer-motion";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { loginStore } from "../Store/loginStore";
+import { colorStore } from "../Store/colorStore";
 
 function MobileNav() {
   const [isDrawerOpen, setisDrawerOpen] = useState(false);
+  const { user, logOut } = loginStore();
   const {
     scrollY,
     setScrollY,
@@ -26,6 +29,7 @@ function MobileNav() {
   } = colorStore();
 
   const location = useLocation();
+  const navigate = useNavigate();
   // Controls for the animation
   const controls = useAnimation();
 
@@ -81,12 +85,12 @@ function MobileNav() {
             aria-label="menu"
             onClick={() => setisDrawerOpen(true)}
           >
-            <MenuIcon fontSize="large" />
+            <MenuIcon fontSize="large" sx={{ color: "white" }} />
           </IconButton>
         </Toolbar>
       </AppBar>
       <Drawer
-        anchor="right"
+        anchor="left"
         open={isDrawerOpen}
         onClose={() => setisDrawerOpen(false)}
       >
@@ -97,11 +101,79 @@ function MobileNav() {
               aria-label="close-icon"
               onClick={() => setisDrawerOpen(false)}
             >
-              <CloseIcon
-                fontSize="large"
-              />
+              <CloseIcon fontSize="large" />
             </IconButton>
           </Toolbar>
+          <Stack spacing={6} sx={{ alignItems: "center" }}>
+            <Link
+              style={{
+                textDecoration: "none",
+                color: location.pathname === "/" ? color : "white",
+              }}
+              to="/"
+            >
+              <Typography
+                component={motion.p}
+                whileHover={{ y: -2, textDecoration: "underline" }}
+                variant="h6"
+                sx={{ cursor: "pointer", color: "black" }}
+              >
+                Home
+              </Typography>
+            </Link>
+            {user && (
+              <Link
+                style={{
+                  textDecoration: "none",
+                  color: location.pathname === "/" ? color : "white",
+                }}
+                to="/Blogs"
+              >
+                <Typography
+                  component={motion.p}
+                  whileHover={{ y: -2, textDecoration: "underline" }}
+                  variant="body2"
+                  sx={{
+                    cursor: "pointer",
+                  }}
+                >
+                  Blog Posts
+                </Typography>
+              </Link>
+            )}
+
+            {!user && (
+              <Link to="/Login">
+                <Button
+                  variant="contained"
+                  sx={{
+                    color: "black",
+                    backgroundColor: "white",
+                    textTransform: "none",
+                    height: "42px",
+                    width: "124px",
+                  }}
+                >
+                  Sign In
+                </Button>
+              </Link>
+            )}
+            {user && (
+              <Button
+                variant="contained"
+                sx={{
+                  color: "black",
+                  backgroundColor: "white",
+                  textTransform: "none",
+                  height: "42px",
+                  width: "124px",
+                }}
+                onClick={() => logOut(navigate)}
+              >
+                Log Out
+              </Button>
+            )}
+          </Stack>
         </Box>
       </Drawer>
     </motion.div>

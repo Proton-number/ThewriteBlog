@@ -94,24 +94,26 @@ function Nav() {
               </Typography>
             </Link>
 
-            <Link
-              style={{
-                textDecoration: "none",
-                color: location.pathname === "/" ? color : "white",
-              }}
-              to="/Blogs"
-            >
-              <Typography
-                component={motion.p}
-                whileHover={{ y: -2, textDecoration: "underline" }}
-                variant="body2"
-                sx={{
-                  cursor: "pointer",
+            {user && (
+              <Link
+                style={{
+                  textDecoration: "none",
+                  color: location.pathname === "/" ? color : "white",
                 }}
+                to="/Blogs"
               >
-                Blog Posts
-              </Typography>
-            </Link>
+                <Typography
+                  component={motion.p}
+                  whileHover={{ y: -2, textDecoration: "underline" }}
+                  variant="body2"
+                  sx={{
+                    cursor: "pointer",
+                  }}
+                >
+                  Blog Posts
+                </Typography>
+              </Link>
+            )}
 
             {!user && (
               <Link to="/Login">

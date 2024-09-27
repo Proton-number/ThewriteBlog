@@ -42,17 +42,25 @@ function Footer() {
                 cursor: "pointer",
               }}
             />
-            <GitHubIcon
-              sx={{
-                height: "20px",
-                width: "20px",
-                opacity: "80%",
-                "&:hover": {
-                  opacity: "100%",
-                },
-                cursor: "pointer",
-              }}
-            />
+            <a
+              href="https://github.com/Proton-number"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: "inherit" }}
+            >
+              <GitHubIcon
+                sx={{
+                  height: "20px",
+                  width: "20px",
+                  opacity: "80%",
+                  "&:hover": {
+                    opacity: "100%",
+                  },
+                  cursor: "pointer",
+                }}
+              />
+            </a>
+
             <InstagramIcon
               sx={{
                 height: "20px",

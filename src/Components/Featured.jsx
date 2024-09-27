@@ -45,7 +45,8 @@ function Featured() {
           blogPost.map((post, index) => (
             <Grid xs={12} sm={6} md={4} lg={2.4} key={index}>
               <Link
-                to={"/singleBlog/" + post?.slug?.current}
+                // to={"/singleBlog/" + post?.slug?.current}
+                to={user ? "/singleBlog/" + post?.slug?.current : "/Login"}
                 style={{ color: "inherit", textDecoration: "none" }}
                 key={post?.slug?.current}
               >
