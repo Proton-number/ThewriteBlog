@@ -4,8 +4,8 @@ import { Box, Typography, Stack } from "@mui/material";
 import { blogStore } from "../Store/blogStore";
 import imageUrlBuilder from "@sanity/image-url";
 import sanityClient from "../client";
-import SanityBlockContent from "@sanity/block-content-to-react";
 import { motion } from "framer-motion";
+import { PortableText } from "@portabletext/react";
 
 const builder = imageUrlBuilder(sanityClient);
 
@@ -18,10 +18,10 @@ function SingleBlog() {
   }, [slug, fetchSingleBlog]);
 
   // STYLING THE CONTENT IN BLOCK CONTENT
-  const customSerializers = {
+  const customComponents = {
     types: {
-      image: ({ node }) => {
-        const imageUrl = builder.image(node.asset).width(400).url(); // Adjust width as needed
+      image: ({ value }) => {
+        const imageUrl = builder.image(value.asset).width(400).url(); // Adjust width as needed
         return (
           <Box
             sx={{
@@ -32,7 +32,7 @@ function SingleBlog() {
             <Box
               component="img"
               src={imageUrl}
-              alt={node.alt}
+              alt={value.alt}
               sx={{
                 width: { xs: "320px", sm: "450px", lg: "900px" },
                 height: "auto",
@@ -41,7 +41,9 @@ function SingleBlog() {
           </Box>
         );
       },
-      block: ({ children }) => (
+    },
+    block: {
+      normal: ({ children }) => (
         <Box sx={{ width: "80%", margin: "auto" }}>
           <Typography
             variant="h6"
@@ -104,7 +106,7 @@ function SingleBlog() {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            width: {xs:"90%", sm: "80%" },
+            width: { xs: "90%", sm: "80%" },
           }}
         >
           {/* author name */}
@@ -128,12 +130,7 @@ function SingleBlog() {
           </Typography>
         </Box>
         {/* block content to display the body from sanity */}
-        <SanityBlockContent
-          blocks={singlePost.body}
-          projectId="dtbj3t1s"
-          dataset="production"
-          serializers={customSerializers}
-        />
+        <PortableText value={singlePost.body} components={customComponents} />
       </Stack>
     </Stack>
   );

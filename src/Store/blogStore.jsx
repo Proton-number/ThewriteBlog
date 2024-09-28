@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import sanityClient from "../client";
-import imageUrlBuilder from "@sanity/image-url";
 
 export const blogStore = create((set) => ({
   blogPost: null,
