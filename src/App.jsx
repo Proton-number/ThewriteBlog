@@ -1,10 +1,16 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useEffect } from "react";
 import "./App.css";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Nav from "./Components/Nav";
 import MobileNav from "./Components/MobileNav";
 import Footer from "./Components/Footer";
+import { loginStore } from "./Store/loginStore";
+import { ping } from "ldrs";
+
+ping.register();
+
+// Default values shown
 
 // Lazy loaded components
 const Home = lazy(() => import("./Pages/Home"));
@@ -15,6 +21,12 @@ const ForgotPassword = lazy(() => import("./Pages/ForgotPassword"));
 const About = lazy(() => import("./Pages/About"));
 
 function App() {
+  const { initializeAuthListener } = loginStore();
+
+  useEffect(() => {
+    initializeAuthListener();
+  }, []);
+
   const theme = createTheme({
     typography: {
       fontFamily: `"Work Sans", sans-serif`,
@@ -24,7 +36,20 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Router>
-        <Suspense fallback={null}>
+        <Suspense
+          fallback={
+            <div
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                display: "flex",
+                height: "100vh",
+              }}
+            >
+              <l-ping size="45" speed="2" color="white"></l-ping>
+            </div>
+          }
+        >
           <Nav />
           <MobileNav />
 

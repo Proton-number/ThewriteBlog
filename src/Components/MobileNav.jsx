@@ -85,7 +85,7 @@ function MobileNav() {
             aria-label="menu"
             onClick={() => setisDrawerOpen(true)}
           >
-            <MenuIcon fontSize="large" sx={{ color: "white" }} />
+            <MenuIcon fontSize="large" sx={{ color: color }} />
           </IconButton>
         </Toolbar>
       </AppBar>
@@ -133,9 +133,7 @@ function MobileNav() {
                   component={motion.p}
                   whileHover={{ y: -2, textDecoration: "underline" }}
                   variant="body2"
-                  sx={{
-                    cursor: "pointer",
-                  }}
+                  sx={{ cursor: "pointer", color: "black" }}
                 >
                   Blog Posts
                 </Typography>

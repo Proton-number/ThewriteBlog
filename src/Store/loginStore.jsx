@@ -3,10 +3,11 @@ import { auth, googleProvider } from "../Config/Firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signInWithPopup,
+  sendPasswordResetEmail,
+  signOut,
+  onAuthStateChanged,
 } from "firebase/auth";
-import { signInWithPopup } from "firebase/auth";
-import { sendPasswordResetEmail } from "firebase/auth";
-import { signOut } from "firebase/auth";
 
 export const loginStore = create((set) => ({
   loginShowPassword: true,
@@ -26,6 +27,19 @@ export const loginStore = create((set) => ({
   setEmail: (email) => set({ email }),
   password: "",
   setPassword: (password) => set({ password }),
+
+  //Listen for user Auth
+  initializeAuthListener: () => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, update the store
+        set({ user });
+      } else {
+        // No user is signed in, clear the user in the store
+        set({ user: null });
+      }
+    });
+  },
 
   //Google Sign-In
   signInWithGoogle: async (navigate) => {
@@ -104,7 +118,7 @@ export const loginStore = create((set) => ({
     try {
       await signOut(auth); // Sign out the user from Firebase
       set({ user: null });
-      navigate("/Login");
+      navigate("/");
     } catch (error) {
       console.error("Error logging out:", error.message);
     }

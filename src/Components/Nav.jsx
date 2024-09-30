@@ -1,5 +1,12 @@
 import React, { useEffect } from "react";
-import { AppBar, Toolbar, Typography, Button, Stack } from "@mui/material";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  Stack,
+  useMediaQuery,
+} from "@mui/material";
 import { motion, useAnimation } from "framer-motion";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { colorStore } from "../Store/colorStore";
@@ -20,6 +27,7 @@ function Nav() {
   const navigate = useNavigate();
   // Controls for the animation
   const controls = useAnimation();
+  
 
   // Listen to scroll and update state
   useEffect(() => {

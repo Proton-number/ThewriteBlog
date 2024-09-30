@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import imageUrlBuilder from "@sanity/image-url";
 import sanityClient from "../client";
-import SanityBlockContent from "@sanity/block-content-to-react";
+import { PortableText } from "@portabletext/react";
 import { Box, Stack, Typography } from "@mui/material";
 import { blogStore } from "../Store/blogStore";
 
@@ -20,10 +20,10 @@ function About() {
   }, [authorId, fetchAuthor]);
 
   // STYLING THE CONTENT IN BLOCK CONTENT
-  const customSerializers = {
+  const customComponents = {
     types: {
-      image: ({ node }) => {
-        const imageUrl = builder.image(node.asset).width(400).url(); // Adjust width as needed
+      image: ({ value }) => {
+        const imageUrl = builder.image(value.asset).width(400).url(); // Adjust width as needed
         return (
           <Box
             sx={{
@@ -34,7 +34,7 @@ function About() {
             <Box
               component="img"
               src={imageUrl}
-              alt={node.alt}
+              alt={value.alt}
               sx={{
                 width: { xs: "320px", sm: "450px", lg: "900px" },
                 height: "auto",
@@ -43,11 +43,13 @@ function About() {
           </Box>
         );
       },
-      block: ({ children }) => (
-        <Box sx={{ margin: "auto" }}>
+    },
+    block: {
+      normal: ({ children }) => (
+        <Box sx={{ width: "80%", margin: "auto" }}>
           <Typography
             variant="h6"
-            sx={{ textAlign: "justify", fontSize: { xs: "18px", lg: "24px" } }}
+            sx={{ textAlign: "justify" }} // Add the style to justify the text
           >
             {children}
           </Typography>
@@ -93,12 +95,7 @@ function About() {
         >
           {author?.name}
         </Typography>
-        <SanityBlockContent
-          blocks={author.bio}
-          projectId="dtbj3t1s"
-          dataset="production"
-          serializers={customSerializers}
-        />
+        <PortableText value={author.bio} components={customComponents} />
       </Stack>
     </Box>
   );
