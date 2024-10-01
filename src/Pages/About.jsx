@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import imageUrlBuilder from "@sanity/image-url";
-import sanityClient from "../client";
 import { PortableText } from "@portabletext/react";
 import { Box, Stack, Typography } from "@mui/material";
 import { blogStore } from "../Store/blogStore";

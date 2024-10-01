@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import sanityClient from "../client";
-import { Box, Typography, Stack } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import imageUrlBuilder from "@sanity/image-url";
 
 // Initialize builder

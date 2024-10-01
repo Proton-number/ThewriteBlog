@@ -2,8 +2,6 @@ import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Box, Typography, Stack } from "@mui/material";
 import { blogStore } from "../Store/blogStore";
-import imageUrlBuilder from "@sanity/image-url";
-import sanityClient from "../client";
 import { motion } from "framer-motion";
 import { PortableText } from "@portabletext/react";
 
