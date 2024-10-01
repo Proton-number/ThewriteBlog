@@ -7,54 +7,13 @@ import sanityClient from "../client";
 import { motion } from "framer-motion";
 import { PortableText } from "@portabletext/react";
 
-const builder = imageUrlBuilder(sanityClient);
-
 function SingleBlog() {
   const { slug } = useParams();
-  const { singlePost, fetchSingleBlog } = blogStore();
+  const { singlePost, fetchSingleBlog, customComponents } = blogStore();
 
   useEffect(() => {
     fetchSingleBlog(slug);
   }, [slug, fetchSingleBlog]);
-
-  // STYLING THE CONTENT IN BLOCK CONTENT
-  const customComponents = {
-    types: {
-      image: ({ value }) => {
-        const imageUrl = builder.image(value.asset).width(400).url(); // Adjust width as needed
-        return (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <Box
-              component="img"
-              src={imageUrl}
-              alt={value.alt}
-              sx={{
-                width: { xs: "320px", sm: "450px", lg: "900px" },
-                height: "auto",
-              }}
-            />
-          </Box>
-        );
-      },
-    },
-    block: {
-      normal: ({ children }) => (
-        <Box sx={{ width: "80%", margin: "auto" }}>
-          <Typography
-            variant="h6"
-            sx={{ textAlign: "justify" }} // Add the style to justify the text
-          >
-            {children}
-          </Typography>
-        </Box>
-      ),
-    },
-  };
 
   if (!singlePost) {
     return (
@@ -93,8 +52,8 @@ function SingleBlog() {
         <Box
           component="img"
           sx={{
-            width: { xs: "90%", lg: "80%" },
-            height: { xs: "300px", lg: "750px" },
+            width: { xs: "90%", lg: "900px" },
+            height: { xs: "300px", sm: "400px", lg: "450px" },
             margin: "0 auto",
           }}
           src={singlePost?.mainImage?.asset?.url}
