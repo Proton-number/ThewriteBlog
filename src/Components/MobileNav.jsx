@@ -8,16 +8,18 @@ import {
   Stack,
   AppBar,
   Button,
+  Avatar,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
 import { motion, useAnimation } from "framer-motion";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { loginStore } from "../Store/loginStore";
 import { colorStore } from "../Store/colorStore";
+import HomeIcon from "@mui/icons-material/Home";
+import ArticleIcon from "@mui/icons-material/Article";
 
 function MobileNav() {
-  const [isDrawerOpen, setisDrawerOpen] = useState(false);
+  const [isDrawerOpen, setisDrawerOpen] = useState(true);
   const { user, logOut } = loginStore();
   const {
     scrollY,
@@ -94,17 +96,53 @@ function MobileNav() {
         open={isDrawerOpen}
         onClose={() => setisDrawerOpen(false)}
       >
-        <Box width="280px">
-          <Toolbar>
-            <IconButton
-              edge="start"
-              aria-label="close-icon"
-              onClick={() => setisDrawerOpen(false)}
-            >
-              <CloseIcon fontSize="large" />
-            </IconButton>
+        <Box width="280px" >
+          <Toolbar
+            sx={{
+              backgroundColor: "grey",
+              color: "white",
+              marginBottom: "30px",
+            }}
+          >
+            <Stack sx={{ padding: "20px" }} spacing={2}>
+              <Stack direction="row" spacing={4} sx={{ alignItems: "center" }}>
+                <Avatar src={user ? user.photoURL : ""} />
+
+                {!user && (
+                  <Link to="/Login">
+                    <Typography
+                      sx={{
+                        color: "white",
+                        opacity: "80%",
+                        "&:hover": {
+                          opacity: "100%",
+                        },
+                      }}
+                    >
+                      Sign in
+                    </Typography>
+                  </Link>
+                )}
+                {user && (
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color: "white",
+                      opacity: "80%",
+                      "&:hover": {
+                        opacity: "100%",
+                      },
+                    }}
+                    onClick={() => logOut(navigate)}
+                  >
+                    Log out
+                  </Typography>
+                )}
+              </Stack>
+              <Typography>Hi, {user ? user?.displayName : "Guest"} </Typography>
+            </Stack>
           </Toolbar>
-          <Stack spacing={6} sx={{ alignItems: "center" }}>
+          <Stack spacing={6} sx={{ alignItems: "left", marginLeft: "30px" }}>
             <Link
               style={{
                 textDecoration: "none",
@@ -112,14 +150,17 @@ function MobileNav() {
               }}
               to="/"
             >
-              <Typography
-                component={motion.p}
-                whileHover={{ y: -2, textDecoration: "underline" }}
-                variant="h6"
-                sx={{ cursor: "pointer", color: "black" }}
-              >
-                Home
-              </Typography>
+              <Stack direction="row" sx={{ alignItems: "center" }} spacing={3}>
+                <HomeIcon sx={{ color: "black" }} />
+                <Typography
+                  component={motion.p}
+                  whileHover={{ y: -2, textDecoration: "underline" }}
+                  variant="body1"
+                  sx={{ cursor: "pointer", color: "black" }}
+                >
+                  Home
+                </Typography>
+              </Stack>
             </Link>
             {user && (
               <Link
@@ -129,47 +170,22 @@ function MobileNav() {
                 }}
                 to="/Blogs"
               >
-                <Typography
-                  component={motion.p}
-                  whileHover={{ y: -2, textDecoration: "underline" }}
-                  variant="body2"
-                  sx={{ cursor: "pointer", color: "black" }}
+                <Stack
+                  direction="row"
+                  sx={{ alignItems: "center" }}
+                  spacing={3}
                 >
-                  Blog Posts
-                </Typography>
+                  <ArticleIcon sx={{ color: "black" }} />
+                  <Typography
+                    component={motion.p}
+                    whileHover={{ y: -2, textDecoration: "underline" }}
+                    variant="body1"
+                    sx={{ cursor: "pointer", color: "black" }}
+                  >
+                    Blog Posts
+                  </Typography>
+                </Stack>
               </Link>
-            )}
-
-            {!user && (
-              <Link to="/Login">
-                <Button
-                  variant="contained"
-                  sx={{
-                    color: "black",
-                    backgroundColor: "white",
-                    textTransform: "none",
-                    height: "42px",
-                    width: "124px",
-                  }}
-                >
-                  Sign In
-                </Button>
-              </Link>
-            )}
-            {user && (
-              <Button
-                variant="contained"
-                sx={{
-                  color: "black",
-                  backgroundColor: "white",
-                  textTransform: "none",
-                  height: "42px",
-                  width: "124px",
-                }}
-                onClick={() => logOut(navigate)}
-              >
-                Log Out
-              </Button>
             )}
           </Stack>
         </Box>
