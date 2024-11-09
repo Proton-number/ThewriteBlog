@@ -4,6 +4,10 @@ import { PortableText } from "@portabletext/react";
 import { Box, Stack, Typography } from "@mui/material";
 import { blogStore } from "../Store/blogStore";
 
+import { infinity } from "ldrs";
+
+infinity.register();
+
 function About() {
   const { author, fetchAuthor, customComponents } = blogStore();
   const { authorId } = useParams();
@@ -27,7 +31,14 @@ function About() {
           height: "100vh",
         }}
       >
-        <Typography variant="h6">Loading...</Typography>
+        <l-infinity
+          size="55"
+          stroke="4"
+          stroke-length="0.15"
+          bg-opacity="0.1"
+          speed="1.3"
+          color="black"
+        ></l-infinity>
       </Box>
     );
   }

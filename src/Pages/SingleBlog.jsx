@@ -5,6 +5,10 @@ import { blogStore } from "../Store/blogStore";
 import { motion } from "framer-motion";
 import { PortableText } from "@portabletext/react";
 
+import { infinity } from "ldrs";
+
+infinity.register();
+
 function SingleBlog() {
   const { slug } = useParams();
   const { singlePost, fetchSingleBlog, customComponents } = blogStore();
@@ -25,7 +29,14 @@ function SingleBlog() {
           height: "100vh",
         }}
       >
-        <Typography variant="h6">Loading...</Typography>
+        <l-infinity
+          size="55"
+          stroke="4"
+          stroke-length="0.15"
+          bg-opacity="0.1"
+          speed="1.3"
+          color="black"
+        ></l-infinity>
       </Box>
     );
   }
@@ -35,11 +46,12 @@ function SingleBlog() {
       sx={{
         backgroundColor: "#f2ecff",
         color: "black",
-        paddingTop: "100px",
-        paddingLeft: "30px",
-        paddingRight: "30px",
-        paddingBottom: "30px",
-        alignItems: "center",
+        padding: {
+          xs: "80px 16px 30px", // More compact padding on mobile
+          sm: "100px 30px 30px", // Original padding on larger screens
+        },
+        margin: "0 auto", // Center the content
+        minHeight:"100vh"
       }}
     >
       <Stack spacing={4} alignItems="center">
@@ -50,9 +62,12 @@ function SingleBlog() {
         <Box
           component="img"
           sx={{
-            width: { xs: "90%", lg: "900px" },
-            height: { xs: "300px", sm: "400px", lg: "450px" },
+            width: { xs: "90%", lg: "1000px" }, // Increased from 900px
+            height: { xs: "300px", sm: "400px", lg: "500px" }, // Increased from 450px
             margin: "0 auto",
+            objectFit: "cover", // Add this to maintain aspect ratio
+            borderRadius: "8px", // Add subtle rounding
+            boxShadow: "0 4px 12px rgba(0,0,0,0.1)", // Add subtle shadow
           }}
           src={singlePost?.mainImage?.asset?.url}
           alt={singlePost?.mainImage.alt}

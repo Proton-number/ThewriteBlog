@@ -1,9 +1,12 @@
 import React, { useEffect } from "react";
 import { Box, Typography, Card, CardContent, CardMedia } from "@mui/material";
 import { blogStore } from "../Store/blogStore";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { infinity } from "ldrs";
+
+infinity.register();
 
 function Blogs() {
   const { blogPost, fetchBlogPosts } = blogStore();
@@ -12,13 +15,37 @@ function Blogs() {
     fetchBlogPosts(); // Fetch blog posts when component loads
   }, [fetchBlogPosts]);
 
+  if (!blogPost) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "#f2ecff",
+          color: "black",
+          height: "100vh",
+        }}
+      >
+        <l-infinity
+          size="55"
+          stroke="4"
+          stroke-length="0.15"
+          bg-opacity="0.1"
+          speed="1.3"
+          color="black"
+        ></l-infinity>
+      </Box>
+    );
+  }
+
   return (
     <Box
       sx={{
         display: "flex",
         alignItems: "center",
         backgroundColor: "#f2ecff",
-        paddingTop: "50px",
+        paddingTop: "100px",
       }}
     >
       <Box
@@ -30,10 +57,10 @@ function Blogs() {
           margin: "auto",
         }}
       >
-        <Grid container spacing={4}>
+        <Grid container spacing={4} justifyContent="center">
           {blogPost &&
             blogPost.map((post, index) => (
-              <Grid key={index} xs={12} sm={6} md={4}>
+              <Grid item key={index} xs={10} sm={6} md={4} lg={3}>
                 <Link
                   to={`/singleBlog/${post?.slug?.current}`}
                   style={{ color: "inherit", textDecoration: "none" }}
@@ -52,19 +79,17 @@ function Blogs() {
                     <Box component={motion.div} whileHover={{ scale: 1.03 }}>
                       <CardMedia
                         component="img"
-                        height="200" // Adjust image height
                         image={post?.mainImage?.asset?.url}
                         alt={post?.mainImage?.alt}
                         sx={{
+                          aspectRatio: "16/10",
                           objectFit: "cover",
                         }}
                       />
                     </Box>
                     <CardContent sx={{ flexGrow: 1 }}>
                       <Typography
-                        gutterBottom
                         variant="h5"
-                        component="div"
                         sx={{
                           fontWeight: 700,
                           fontSize: "18px",
@@ -79,7 +104,7 @@ function Blogs() {
                         {post?.title}
                       </Typography>
                       <Typography
-                        variant="body2"
+                        variant="subtitle2"
                         color="text.secondary"
                         sx={{
                           height: "60px", // Fixed height for description
