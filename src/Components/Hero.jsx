@@ -12,12 +12,17 @@ function Hero() {
   ];
 
   useEffect(() => {
+    // Preload all images
+    images.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
     const interval = setInterval(() => {
       setCurrentImage((prevImage) => (prevImage + 1) % images.length);
     }, 3000);
 
     return () => clearInterval(interval); // Cleanup on unmount
-  }, [images.length]);
+  }, []);
 
   return (
     <Box
@@ -28,7 +33,7 @@ function Hero() {
         alignItems: "center",
         backgroundSize: "cover",
         backgroundPosition: "center",
-        transition: "background-image 0.5s ease-in-out",
+        transition: "background-image 1s ease-in-out",
       }}
     >
       <Stack

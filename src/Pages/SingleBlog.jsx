@@ -51,7 +51,7 @@ function SingleBlog() {
           sm: "100px 30px 30px", // Original padding on larger screens
         },
         margin: "0 auto", // Center the content
-        minHeight:"100vh"
+        minHeight: "100vh",
       }}
     >
       <Stack spacing={4} alignItems="center">
@@ -78,7 +78,7 @@ function SingleBlog() {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            width: { xs: "90%", sm: "80%" },
+            width: { xs: "90%", sm: "80%", lg: "70%" },
           }}
         >
           {/* author name */}

@@ -63,6 +63,7 @@ function App() {
           </Routes>
 
           <Footer />
+      
         </Suspense>
       </Router>
     </ThemeProvider>
