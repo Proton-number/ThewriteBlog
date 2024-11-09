@@ -48,7 +48,7 @@ export const loginStore = create((set) => ({
       const result = await signInWithPopup(auth, googleProvider);
       set({ user: result.user });
       console.log("Google user data:", result.user);
-      navigate("/");
+      navigate("/Blogs");
     } catch (error) {
       set({ error: error.message });
     }
@@ -65,7 +65,7 @@ export const loginStore = create((set) => ({
       );
       set({ user: result.user, email: "", password: "" });
       console.log("Google user data:", result.user);
-      navigate("/");
+      navigate("/Blogs");
     } catch (error) {
       console.error("Error signing up:", error.response?.data || error.message);
       set({ error: error.message });
@@ -78,7 +78,7 @@ export const loginStore = create((set) => ({
     try {
       const result = await signInWithEmailAndPassword(auth, email, password);
       set({ user: result.user, email: "", password: "" });
-      navigate("/");
+      navigate("/Blogs");
     } catch (error) {
       console.error("Error signing in:", error.response?.data || error.message);
       set({ error: error.message });
