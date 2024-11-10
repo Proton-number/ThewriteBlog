@@ -1,5 +1,12 @@
-import React, { useEffect } from "react";
-import { Box, Typography, Card, CardContent, CardMedia } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import {
+  Box,
+  Typography,
+  Card,
+  CardContent,
+  CardMedia,
+  Skeleton,
+} from "@mui/material";
 import { blogStore } from "../Store/blogStore";
 import Grid from "@mui/material/Grid";
 import { motion } from "framer-motion";
@@ -10,6 +17,7 @@ infinity.register();
 
 function Blogs() {
   const { blogPost, fetchBlogPosts } = blogStore();
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
     fetchBlogPosts(); // Fetch blog posts when component loads
@@ -77,13 +85,24 @@ function Blogs() {
                     }}
                   >
                     <Box component={motion.div} whileHover={{ scale: 1.03 }}>
+                      {!imageLoaded && (
+                        <Skeleton
+                          variant="rectangular"
+                          width={345}
+                          height={200}
+                          animation="wave"
+                          sx={{ backgroundColor: "#a6a6a6" }}
+                        />
+                      )}
                       <CardMedia
                         component="img"
                         image={post?.mainImage?.asset?.url}
                         alt={post?.mainImage?.alt}
+                        onLoad={() => setImageLoaded(true)}
                         sx={{
                           aspectRatio: "16/10",
                           objectFit: "cover",
+                          display: imageLoaded ? "block" : "none",
                         }}
                       />
                     </Box>

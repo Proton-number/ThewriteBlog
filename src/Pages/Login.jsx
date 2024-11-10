@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Typography,
   Stack,
@@ -16,6 +16,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { loginStore } from "../Store/loginStore";
 import { Link, useNavigate } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
 
 function Login() {
   const navigate = useNavigate();
@@ -33,8 +34,26 @@ function Login() {
     setPassword,
     error,
   } = loginStore();
+
+  const [isEmailValid, setIsEmailValid] = useState(true);
+  const [isPasswordValid, setIsPasswordValid] = useState(true);
+
+  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+  const passwordRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+
+  const validateEmail = (email) => {
+    setEmail(email);
+    setIsEmailValid(emailRegex.test(email));
+  };
+
+  const validatePassword = (password) => {
+    setPassword(password);
+    setIsPasswordValid(passwordRegex.test(password));
+  };
+
   return (
-    <Box
+    <Stack
       sx={{
         height: "100vh",
         display: "flex",
@@ -44,6 +63,32 @@ function Login() {
         color: "black",
       }}
     >
+      <AnimatePresence>
+        {error && (
+          <Box
+            component={motion.div}
+            key="error-alert"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            transition={{ duration: 1.2 }}
+          >
+            <Alert
+              variant="filled"
+              severity="error"
+              sx={{ marginBottom: "20px" }}
+            >
+              {[
+                "Firebase: Error (auth/invalid-credential).",
+                "Firebase: Error (auth/invalid-email).",
+                "Firebase: Error (auth/missing-password).",
+              ].includes(error)
+                ? "Invalid Email or Password"
+                : null}
+            </Alert>
+          </Box>
+        )}
+      </AnimatePresence>
       <Paper
         elevation={6}
         sx={{
@@ -63,7 +108,7 @@ function Login() {
             InputProps={{
               endAdornment: (
                 <InputAdornment position="start">
-                  <EmailIcon />
+                  <EmailIcon sx={{ color: isEmailValid ? "grey" : "red" }} />
                 </InputAdornment>
               ),
               inputProps: {
@@ -72,10 +117,18 @@ function Login() {
                 },
               },
             }}
-            label={"Email..."}
+            error={!isEmailValid}
+            placeholder={"Enter your email..."}
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => validateEmail(e.target.value)}
+            helperText={
+              !isEmailValid && (
+                <Typography sx={{ color: "#cc0000" }} variant="subtitle3">
+                  Please enter a valid email address
+                </Typography>
+              )
+            }
           />
           <TextField
             InputProps={{
@@ -87,7 +140,9 @@ function Login() {
                         setLoginShowPassword(false);
                       }}
                     >
-                      <VisibilityOff />
+                      <VisibilityOff
+                        sx={{ color: isPasswordValid ? "grey" : "red" }}
+                      />
                     </IconButton>
                   ) : (
                     <IconButton
@@ -95,7 +150,9 @@ function Login() {
                         setLoginShowPassword(true);
                       }}
                     >
-                      <Visibility />
+                      <Visibility
+                        sx={{ color: isPasswordValid ? "grey" : "red" }}
+                      />
                     </IconButton>
                   )}
                 </InputAdornment>
@@ -106,10 +163,27 @@ function Login() {
                 },
               },
             }}
-            label={"Password..."}
+            placeholder={" Enter your password..."}
             type={loginShowPassword ? "password" : "text"}
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => validatePassword(e.target.value)}
+            error={!isPasswordValid}
+            helperText={
+              <Stack spacing={1}>
+                {/* Show password requirements initially */}
+                <Typography variant="subtitle3">
+                  Please enter a valid password.
+                </Typography>
+
+                {/* Show error message if password is invalid */}
+                {!isPasswordValid && (
+                  <Typography sx={{ color: "#cc0000" }} variant="subtitle3">
+                    Should contain: <br /> Lowercase, Uppercase, Digit, Special
+                    char, Min 8 chars
+                  </Typography>
+                )}
+              </Stack>
+            }
           />
           {haveAccount && (
             <Link
@@ -211,7 +285,7 @@ function Login() {
           )}
         </Stack>
       </Paper>
-    </Box>
+    </Stack>
   );
 }
 

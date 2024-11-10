@@ -3,7 +3,6 @@ import { Box, Typography, Stack } from "@mui/material";
 import XIcon from "@mui/icons-material/X";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import InstagramIcon from "@mui/icons-material/Instagram";
-import Cool from "./Cool";
 
 function Footer() {
   return (
@@ -76,7 +75,6 @@ function Footer() {
           </Stack>
         </Stack>
       </Stack>
-      <Cool/>
     </Stack>
   );
 }

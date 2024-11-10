@@ -7,7 +7,6 @@ import {
   Drawer,
   Stack,
   AppBar,
-  Button,
   Avatar,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -19,7 +18,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import ArticleIcon from "@mui/icons-material/Article";
 
 function MobileNav() {
-  const [isDrawerOpen, setisDrawerOpen] = useState(true);
+  const [isDrawerOpen, setisDrawerOpen] = useState(false);
   const { user, logOut } = loginStore();
   const {
     scrollY,
