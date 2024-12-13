@@ -6,9 +6,9 @@ import {
   CardContent,
   CardMedia,
   Skeleton,
+  Grid2,
 } from "@mui/material";
 import { blogStore } from "../Store/blogStore";
-import Grid from "@mui/material/Grid";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { infinity } from "ldrs";
@@ -65,10 +65,10 @@ function Blogs() {
           margin: "auto",
         }}
       >
-        <Grid container spacing={4} justifyContent="center">
+        <Grid2 container spacing={2} justifyContent="center">
           {blogPost &&
             blogPost.map((post, index) => (
-              <Grid item key={index} xs={10} sm={6} md={4} lg={3}>
+              <Grid2  key={index} xs={12} sm={6} md={4} lg={3}>
                 <Link
                   to={`/singleBlog/${post?.slug?.current}`}
                   style={{ color: "inherit", textDecoration: "none" }}
@@ -139,9 +139,9 @@ function Blogs() {
                     </CardContent>
                   </Card>
                 </Link>
-              </Grid>
+              </Grid2>
             ))}
-        </Grid>
+        </Grid2>
       </Box>
     </Box>
   );

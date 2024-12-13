@@ -5,7 +5,7 @@ import {
   Typography,
   Button,
   Stack,
-  useMediaQuery,
+  Avatar,
 } from "@mui/material";
 import { motion, useAnimation } from "framer-motion";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -27,7 +27,6 @@ function Nav() {
   const navigate = useNavigate();
   // Controls for the animation
   const controls = useAnimation();
-  
 
   // Listen to scroll and update state
   useEffect(() => {
@@ -154,6 +153,10 @@ function Nav() {
                 Log Out
               </Button>
             )}
+            <Avatar
+              src={user ? user.photoURL : ""}
+              sx={{ cursor: "pointer" }}
+            />
           </Stack>
         </Toolbar>
       </AppBar>

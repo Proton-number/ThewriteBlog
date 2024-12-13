@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Typography,
   Stack,
@@ -51,16 +51,34 @@ function Login() {
     setPassword(password);
     setIsPasswordValid(passwordRegex.test(password));
   };
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerHeight < 500) {
+        setIsKeyboardVisible(true);
+      } else {
+        setIsKeyboardVisible(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <Stack
       sx={{
-        height: "100vh",
+        height: isKeyboardVisible ? "auto" : "100vh",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: "#f2ecff",
         color: "black",
+        paddingTop: { xs: "70px", sm: "30px" },
       }}
     >
       <AnimatePresence>
@@ -85,6 +103,30 @@ function Login() {
               ].includes(error)
                 ? "Invalid Email or Password"
                 : null}
+            </Alert>
+          </Box>
+        )}
+      </AnimatePresence>
+
+      {/* Show error message if password is invalid */}
+      <AnimatePresence>
+        {!isPasswordValid && (
+          <Box
+            component={motion.div}
+            key="error-alert"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            transition={{ duration: 1.2 }}
+            sx={{ width: { xs: "290px", sm: "340px" } }}
+          >
+            <Alert
+              variant="filled"
+              severity="error"
+              sx={{ marginBottom: { xs: "20px", lg: "10px" } }}
+            >
+              Password should contain:
+              <br /> Lowercase, Uppercase, Digit, Special char, Min 8 chars
             </Alert>
           </Box>
         )}
@@ -174,14 +216,6 @@ function Login() {
                 <Typography variant="subtitle3">
                   Please enter a valid password.
                 </Typography>
-
-                {/* Show error message if password is invalid */}
-                {!isPasswordValid && (
-                  <Typography sx={{ color: "#cc0000" }} variant="subtitle3">
-                    Should contain: <br /> Lowercase, Uppercase, Digit, Special
-                    char, Min 8 chars
-                  </Typography>
-                )}
               </Stack>
             }
           />

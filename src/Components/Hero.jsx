@@ -28,7 +28,7 @@ function Hero() {
     <Box
       sx={{
         backgroundImage: `url("${images[currentImage]}")`,
-        height: "100vh",
+        minHeight: "100vh",
         display: "flex",
         alignItems: "center",
         backgroundSize: "cover",
