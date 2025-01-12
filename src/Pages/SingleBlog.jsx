@@ -54,6 +54,7 @@ function SingleBlog() {
         minHeight: "100vh",
       }}
     >
+     
       <Stack spacing={4} alignItems="center">
         {" "}
         <Typography variant="h3" align="center">
