@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Box, Typography, Stack } from "@mui/material";
 import { blogStore } from "../Store/blogStore";
-import Grid from "@mui/material/Grid2";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { loginStore } from "../Store/loginStore";
@@ -35,15 +34,10 @@ function Featured() {
       }}
     >
       <Typography variant="h2">Featured</Typography>
-      <Grid
-        spacing={8}
-        sx={{ padding: "20px" }}
-        justifyContent="center"
-        container
-      >
+      <Box className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-16 p-6 ">
         {blogPost &&
           blogPost.map((post, index) => (
-            <Grid xs={12} sm={6} md={4} lg={2.4} key={index}>
+            <Box key={index}>
               <Link
                 // to={"/singleBlog/" + post?.slug?.current}
                 to={user ? "/singleBlog/" + post?.slug?.current : "/Login"}
@@ -92,9 +86,9 @@ function Featured() {
                   </Stack>
                 </Stack>
               </Link>
-            </Grid>
+            </Box>
           ))}
-      </Grid>
+      </Box>
     </Stack>
   );
 }

@@ -84,22 +84,24 @@ function Nav() {
             sx={{ alignItems: "center" }}
             spacing={{ sm: 8, lg: 20 }}
           >
-            <Link
-              style={{
-                textDecoration: "none",
-                color: location.pathname === "/" ? color : "white",
-              }}
-              to="/"
-            >
-              <Typography
-                component={motion.p}
-                whileHover={{ y: -2, textDecoration: "underline" }}
-                variant="body2"
-                sx={{ cursor: "pointer" }}
+            {location.pathname !== "/" && (
+              <Link
+                style={{
+                  textDecoration: "none",
+                  color: location.pathname === "/" ? color : "white",
+                }}
+                to="/"
               >
-                Home
-              </Typography>
-            </Link>
+                <Typography
+                  component={motion.p}
+                  whileHover={{ y: -2, textDecoration: "underline" }}
+                  variant="body2"
+                  sx={{ cursor: "pointer" }}
+                >
+                  Home
+                </Typography>
+              </Link>
+            )}
 
             {user && (
               <Link

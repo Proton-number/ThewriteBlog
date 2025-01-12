@@ -44,20 +44,21 @@ function SingleBlog() {
   return (
     <Stack
       sx={{
+        display: "flex",
+        alignItems: "center",
         backgroundColor: "#f2ecff",
+        justifyContent: "center",
         color: "black",
         padding: {
           xs: "80px 16px 30px", // More compact padding on mobile
           sm: "100px 30px 30px", // Original padding on larger screens
         },
-        margin: "0 auto", // Center the content
         minHeight: "100vh",
       }}
     >
-     
-      <Stack spacing={4} alignItems="center">
+      <Stack spacing={4}>
         {" "}
-        <Typography variant="h3" align="center">
+        <Typography variant="h4" align="center">
           {singlePost?.title}
         </Typography>
         <Box
@@ -79,7 +80,7 @@ function SingleBlog() {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            width: { xs: "90%", sm: "80%", lg: "70%" },
+            width: { xs: "90%", sm: "80%", lg: "94%" },
           }}
         >
           {/* author name */}

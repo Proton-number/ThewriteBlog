@@ -19,6 +19,7 @@ import ArticleIcon from "@mui/icons-material/Article";
 
 function MobileNav() {
   const [isDrawerOpen, setisDrawerOpen] = useState(false);
+
   const { user, logOut } = loginStore();
   const {
     scrollY,
@@ -95,7 +96,7 @@ function MobileNav() {
         open={isDrawerOpen}
         onClose={() => setisDrawerOpen(false)}
       >
-        <Box width="280px" >
+        <Box width="280px">
           <Toolbar
             sx={{
               backgroundColor: "grey",
@@ -142,25 +143,32 @@ function MobileNav() {
             </Stack>
           </Toolbar>
           <Stack spacing={6} sx={{ alignItems: "left", marginLeft: "30px" }}>
-            <Link
-              style={{
-                textDecoration: "none",
-                color: location.pathname === "/" ? color : "white",
-              }}
-              to="/"
-            >
-              <Stack direction="row" sx={{ alignItems: "center" }} spacing={3}>
-                <HomeIcon sx={{ color: "black" }} />
-                <Typography
-                  component={motion.p}
-                  whileHover={{ y: -2, textDecoration: "underline" }}
-                  variant="body1"
-                  sx={{ cursor: "pointer", color: "black" }}
+            {location.pathname !== "/" && (
+              <Link
+                style={{
+                  textDecoration: "none",
+                  color: location.pathname === "/" ? color : "white",
+                }}
+                to="/"
+              >
+                <Stack
+                  direction="row"
+                  sx={{ alignItems: "center" }}
+                  spacing={3}
                 >
-                  Home
-                </Typography>
-              </Stack>
-            </Link>
+                  <HomeIcon sx={{ color: "black" }} />
+                  <Typography
+                    component={motion.p}
+                    whileHover={{ y: -2, textDecoration: "underline" }}
+                    variant="body1"
+                    sx={{ cursor: "pointer", color: "black" }}
+                  >
+                    Home
+                  </Typography>
+                </Stack>
+              </Link>
+            )}
+
             {user && (
               <Link
                 style={{

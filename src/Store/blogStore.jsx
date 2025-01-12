@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import sanityClient from "../client";
-import { Box, Typography } from "@mui/material";
 import imageUrlBuilder from "@sanity/image-url";
 
 // Initialize builder
@@ -115,24 +114,15 @@ export const blogStore = create((set) => ({
   customComponents: {
     types: {
       image: ({ value }) => {
-        const imageUrl = builder.image(value.asset).width(400).url(); // Adjust width as needed
+        const imageUrl = builder.image(value.asset).width(400).url();
         return (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <Box
-              component="img"
+          <div className="flex justify-center my-8">
+            <img
               src={imageUrl}
               alt={value.alt}
-              sx={{
-                width: { xs: "320px", sm: "450px", lg: "500px" },
-                height: { lg: "400px" },
-              }}
+              className="w-[320px] sm:w-[450px] lg:w-[500px] lg:h-[400px] object-cover rounded-lg shadow-md"
             />
-          </Box>
+          </div>
         );
       },
       quoteWithImage: ({ value }) => {
@@ -142,82 +132,73 @@ export const blogStore = create((set) => ({
           .height(1000)
           .url();
         return (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-evenly",
-              alignItems: "center",
-              gap: "20px",
-              margin: "20px 0",
-            }}
-          >
-            <Typography
-              component="blockquote"
-              variant="body1"
-              sx={{
-                fontStyle: "italic",
-                textAlign: "left",
-                width: "30%",
-              }}
-            >
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6 my-8 px-4">
+            <blockquote className="italic text-left w-full md:w-1/3 text-gray-700 border-l-4 border-gray-300 pl-4">
               "{value.quote}"
-            </Typography>
-            <Box
-              component="img"
+            </blockquote>
+            <img
               src={imageUrl}
               alt="Quote image"
-              sx={{
-                width: { xs: "150px", sm: "200px", lg: "550px" },
-                height: { xs: "150px", sm: "200px", lg: "550px" },
-                borderRadius: "8px",
-              }}
+              className="w-[150px] h-[150px] sm:w-[200px] sm:h-[200px] lg:w-[550px] lg:h-[550px] rounded-lg shadow-lg object-cover"
             />
-          </Box>
+          </div>
         );
       },
     },
     block: {
       bullet: ({ children }) => (
-        <Box component="li" sx={{ marginBottom: "8px", width: "80%" }}>
-          {children}
-        </Box>
+        <li className="mb-2 text-gray-800 leading-relaxed ">{children}</li>
       ),
       normal: ({ children }) => (
-        <Box sx={{ width: "80%", margin: "auto" }}>
-          <Typography variant="h6" sx={{ textAlign: "justify" }}>
+        <div className="max-w-5xl mx-auto  mb-6">
+          <p className="text-gray-800 leading-relaxed text-justify ">
             {children}
-          </Typography>
-        </Box>
+          </p>
+        </div>
+      ),
+      h1: ({ children }) => (
+        <h1 className="text-4xl font-bold text-gray-900 mb-6 mt-8">
+          {children}
+        </h1>
+      ),
+      h2: ({ children }) => (
+        <h2 className="text-3xl font-semibold text-gray-800 mb-4 mt-6">
+          {children}
+        </h2>
+      ),
+      h3: ({ children }) => (
+        <h3 className="text-2xl font-medium text-gray-900 mb-3 mt-4">
+          {children}
+        </h3>
+      ),
+      h4: ({ children }) => (
+        <h3 className="text-1xl font-semibold text-gray-900 mb-3 mt-4">
+          {children}
+        </h3>
       ),
     },
     list: {
       bullet: ({ children }) => (
-        <Box
-          component="ul"
-          sx={{ paddingLeft: "1.5rem", margin: "1rem 0", width: "60%" }}
-        >
+        <ul className="pl-6 my-4 max-w-4xl mx-auto space-y-2 list-disc">
           {children}
-        </Box>
+        </ul>
       ),
       number: ({ children }) => (
-        <Box
-          component="ol"
-          sx={{ paddingLeft: "1.5rem", margin: "1rem 0", width: "80%" }}
-        >
+        <ol className="pl-6 my-4 max-w-4xl mx-auto space-y-2 list-decimal">
           {children}
-        </Box>
+        </ol>
       ),
     },
     listItem: {
       bullet: ({ children }) => (
-        <Box component="li" sx={{ marginBottom: "0.5rem" }}>
-          <Typography variant="body1">{children}</Typography>
-        </Box>
+        <li className="mb-2">
+          <div className="text-gray-800 leading-relaxed">{children}</div>
+        </li>
       ),
       number: ({ children }) => (
-        <Box component="li" sx={{ marginBottom: "0.5rem" }}>
-          <Typography variant="body1">{children}</Typography>
-        </Box>
+        <li className="mb-2">
+          <div className="text-gray-800 leading-relaxed">{children}</div>
+        </li>
       ),
     },
   },
